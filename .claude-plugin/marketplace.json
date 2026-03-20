@@ -1,0 +1,17 @@
+{
+  "name": "pensieve",
+  "owner": {
+    "name": "invidious9000"
+  },
+  "metadata": {
+    "description": "Memory and instruction optimizer for Claude Code — diagnose, fix, and prevent the behavioral degradation that accumulates over time. 18 frustration pattern catalog, session transcript mining, proactive anti-frustration seeding, escalation to mechanical hooks."
+  },
+  "plugins": [
+    {
+      "name": "pensieve",
+      "source": "./",
+      "description": "6 skills: /audit (memory + instruction diagnostics), /optimize (apply fixes), /diagnose (mine session transcripts), /capture (drift-proof feedback), /seed (proactive anti-frustration rules), /harden (escalate to hooks)",
+      "version": "0.2.0"
+    }
+  ]
+}
