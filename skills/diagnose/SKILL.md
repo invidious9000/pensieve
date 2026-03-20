@@ -9,11 +9,20 @@ Read `references/claude-frustration-patterns.md` from the pensieve plugin direct
 
 ## Data Sources
 
-Session transcripts are JSONL files stored in the project directory:
-- `~/.claude/projects/{encoded-project-name}/*.jsonl` (current account)
-- Also check `~/.claude-account*` directories if multi-account
+Session transcripts are JSONL files stored per-account, per-project. The same user may have sessions across multiple accounts for the same project — **aggregate all of them**.
 
-Each line is a JSON object. Key fields:
+Derive the encoded project name from the current working directory: replace all `/` with `-` (e.g., `/home/user/repos/myproject` → `-home-user-repos-myproject`).
+
+Scan ALL account directories for transcripts:
+```
+~/.claude/projects/{encoded}/*.jsonl
+~/.claude-account2/projects/{encoded}/*.jsonl
+~/.claude-account3/projects/{encoded}/*.jsonl
+```
+
+Also check for additional accounts by globbing `~/.claude-account*/projects/{encoded}/`. Each account's transcripts are independent — a frustration pattern may appear in one account but not another.
+
+Each JSONL line is a JSON object. Key fields:
 - `type`: "user", "assistant", "file-history-snapshot"
 - `message.content`: the actual message text (string or array of content blocks)
 - `toolUseResult`: "User rejected tool use" when user blocked an action
