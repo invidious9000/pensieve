@@ -207,3 +207,15 @@ When optimizing memories, if you see 3+ memories that are all reactions to the s
 **Root cause:** Claude treats errors as obstacles to work around rather than information to surface. The goal "complete the task" overrides "keep the user informed."
 
 **Correct behavior:** When a tool or API returns an error, tell the user. Especially for the project's own tooling. Then decide together whether to work around it or fix it. The error might be the most important thing that happened.
+
+## Ignoring Available Tools
+
+**Pattern:** Claude hand-builds something by inferring conventions from other files, when a skill, command, or MCP tool exists in the session specifically for that task. Guesses at plugin structure instead of using `/plugin-structure`. Writes spec files manually instead of using spec workflow commands. Reads raw database tables instead of using query tools.
+
+**Typical user reactions:** "why didn't you use X?", "that skill is right there", "you have a tool for this"
+
+**Memory symptoms:** feedback_check_commands, feedback_use_available_tools. Often repeated across projects because the pattern isn't tool-specific.
+
+**Root cause:** Claude defaults to its training knowledge (pattern-match from similar-looking files) rather than checking what tools are loaded in the current session. Reading another plugin's structure feels more concrete than invoking a skill it hasn't used before.
+
+**Correct behavior:** Before starting work, check what's already loaded in the session. Skills, commands, MCP tools, and plugins are listed in system-reminder blocks. If a tool exists for what you're about to do by hand, use it. This applies to everything — plugin-dev skills, project slash commands, MCP tools, query tools.
