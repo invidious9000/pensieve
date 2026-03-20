@@ -61,7 +61,7 @@ Rules should start as memories and escalate only when softer enforcement fails. 
 
 ### Prevention
 
-**`/seed`** — Proactively install anti-frustration rules based on user profile. If `/diagnose` has been run first, uses the empirically inferred persona. Otherwise profiles the user through questions. Generates positive-framing rules targeting the 18 known Claude frustration patterns. Vaccination instead of treatment.
+**`/seed`** — Proactively install anti-frustration rules based on user profile. If `/diagnose` has been run first, uses the empirically inferred persona. Otherwise profiles the user through questions. Generates positive-framing rules targeting the 19 known Claude frustration patterns. Vaccination instead of treatment.
 
 **`/capture`** — Structured feedback capture with drift prevention. When you want Claude to remember something, asks What/Why/When/Exceptions before writing — preventing the common failure where Claude paraphrases your rule incorrectly.
 
@@ -89,7 +89,7 @@ Last resort:   /harden                   (mechanically enforce what Claude won't
 
 ## The 18 Frustration Patterns
 
-Pensieve catalogs 18 behavioral failure modes that generate user frustration:
+Pensieve catalogs 19 behavioral failure modes that generate user frustration:
 
 | # | Pattern | Core Issue |
 |---|---------|-----------|
@@ -111,6 +111,7 @@ Pensieve catalogs 18 behavioral failure modes that generate user frustration:
 | 16 | Wrong Abstraction Level | Explains basics to experts or vice versa |
 | 17 | Stale Context | Assumes files haven't changed since last read |
 | 18 | Silent Workaround | Hides errors instead of reporting them |
+| 19 | Ignoring Available Tools | Hand-builds things when skills/commands exist for the task |
 
 Each pattern includes: typical user reactions, memory symptoms, root cause, and correct positive behavior. See `references/claude-frustration-patterns.md`.
 
