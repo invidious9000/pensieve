@@ -20,14 +20,22 @@ find ~/.claude/projects ~/.claude-account*/projects -name "*.jsonl" -type f 2>/d
 
 This shows every project and its transcript count. Exclude `subagents` directories (agent worker transcripts, not user sessions).
 
-**Step 2: Sample from EVERY project, not just recent ones.** For each project with transcripts, get its 3 most recent sessions:
+**Step 2: Find high-value sessions.** Most sessions are noise — 1-2 turn tests, quick checks, slash command trials. The sessions worth analyzing are the ones that contain actual frustration evidence. Run this to find them:
 ```bash
-for proj in $(find ~/.claude/projects ~/.claude-account*/projects -maxdepth 1 -type d 2>/dev/null | grep -v subagents | sort -u); do
-  ls -t "$proj"/*.jsonl 2>/dev/null | head -3
-done
+find ~/.claude/projects ~/.claude-account*/projects -name "*.jsonl" -type f 2>/dev/null | grep -v subagents | while read f; do
+  signals=$(grep -c '"User rejected tool use"\|"Request interrupted by user"' "$f" 2>/dev/null)
+  lines=$(wc -l < "$f")
+  if [ "$signals" -gt 0 ] || [ "$lines" -gt 50 ]; then
+    proj=$(basename "$(dirname "$f")")
+    score=$(( signals * 1000 + lines ))
+    echo "$score $signals $lines $proj $f"
+  fi
+done | sort -rn | head -40
 ```
 
-This ensures broad coverage. A project with 267 transcripts and a project with 2 both get sampled. If a user has 15 projects, that's ~45 transcripts — enough for statistical signal without overwhelming context.
+This filters out trivial sessions (<50 lines, no signals) and ranks by a composite score: explicit frustration signals weighted heavily (x1000), plus session length as tiebreaker. Long sessions surface naturally because they have more interaction surface area — more chances for corrections, more back-and-forth that may indicate struggles.
+
+Output: `composite_score signal_count line_count project filepath`. Analyze the top 30-40 results. This naturally spans multiple projects.
 
 **Step 3: Tag findings by project.** Every frustration signal must be tagged with its source project so the heatmap shows cross-project distribution (e.g., "Work Avoidance: 5 in daystrom-mk2, 2 in chooch, 0 in pensieve").
 
