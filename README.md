@@ -6,10 +6,28 @@ Claude Code's behavior degrades over time through a predictable cycle: memories 
 
 ## Install
 
-```bash
-# From the Claude Code CLI
-/install-plugin path /path/to/pensieve
+Add the marketplace to your settings.json (`~/.claude/settings.json`):
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "pensieve": {
+      "source": {
+        "source": "github",
+        "repo": "invidious9000/pensieve"
+      }
+    }
+  }
+}
 ```
+
+Then enable the plugin:
+
+```
+/plugins
+```
+
+Select `pensieve@pensieve` and enable it.
 
 ## The Escalation Ladder
 
