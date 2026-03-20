@@ -9,18 +9,18 @@ Read `references/claude-frustration-patterns.md` from the pensieve plugin direct
 
 ## Data Sources
 
-Session transcripts are JSONL files stored per-account, per-project. The same user may have sessions across multiple accounts for the same project — **aggregate all of them**.
+Session transcripts are JSONL files stored per-account, per-project. **Frustration patterns are about the user, not the project** — if a user is frustrated by Work Avoidance in one project, they'll be frustrated by it everywhere. Scan ALL projects across ALL accounts.
 
-Derive the encoded project name from the current working directory: replace all `/` with `-` (e.g., `/home/user/repos/myproject` → `-home-user-repos-myproject`).
-
-Scan ALL account directories for transcripts:
-```
-~/.claude/projects/{encoded}/*.jsonl
-~/.claude-account2/projects/{encoded}/*.jsonl
-~/.claude-account3/projects/{encoded}/*.jsonl
+Discover all transcript locations:
+```bash
+# All accounts
+~/.claude/projects/*/*.jsonl
+~/.claude-account*/projects/*/*.jsonl
 ```
 
-Also check for additional accounts by globbing `~/.claude-account*/projects/{encoded}/`. Each account's transcripts are independent — a frustration pattern may appear in one account but not another.
+Glob for all account directories (`~/.claude-account*`) to discover accounts dynamically. For each account, scan all project directories, not just the current project. Sort all discovered transcripts by modification time across all accounts and projects — analyze the most recent 20-30 sessions regardless of which project they belong to.
+
+Tag each transcript with its project name (derived from the directory) so findings can be correlated: "this frustration happened 5 times in daystrom-mk2, 2 times in chooch, 0 times in pensieve."
 
 Each JSONL line is a JSON object. Key fields:
 - `type`: "user", "assistant", "file-history-snapshot"
@@ -91,9 +91,9 @@ Draft a user persona summary. This will be used by `/seed` if run afterward, or 
 ## Output Format
 
 ### Frustration Heatmap
-| Pattern | Occurrences (last 10 sessions) | Memory exists? | Effective? |
-|---------|-------------------------------|----------------|------------|
-| ... | ... | ... | ... |
+| Pattern | Occurrences (last 20-30 sessions) | Projects affected | Memory exists? | Effective? |
+|---------|-------------------------------------|-------------------|----------------|------------|
+| ... | ... | ... | ... | ... |
 
 ### Uncaptured Frustrations
 Patterns found in sessions with no corresponding memory. For each:
