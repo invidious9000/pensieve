@@ -2,7 +2,25 @@
 
 Memory and instruction optimizer for [Claude Code](https://claude.ai/code).
 
-Claude Code's behavior degrades over time through a predictable cycle: memories accumulate negative rules that cause paralysis, CLAUDE.md files grow with important rules buried where they get less attention, corrections drift from the user's actual intent, and the same frustrations repeat across projects without being captured. Pensieve breaks this cycle with systematic diagnosis, treatment, and prevention.
+## Why this exists
+
+Claude Code has built-in memory (`auto-memory`), instruction files (`CLAUDE.md`), and `/insights` for session analysis. These are good primitives. What's missing is the maintenance layer — nothing checks whether your memories contradict each other, whether your CLAUDE.md buries important rules where they get less attention, whether the same correction you've made 5 times has actually been captured, or whether the captured version even matches what you meant.
+
+The result is predictable degradation: memories accumulate "don't" rules that make Claude overly cautious, CLAUDE.md grows organically with behavioral rules buried in the bottom half, corrections drift from the user's actual intent (you said "don't kill by port" and Claude remembered "never touch processes"), and the same frustrations repeat across projects.
+
+**Pensieve fills the gap between Claude Code's persistence primitives and actual behavioral reliability.**
+
+### How it differs from existing tools
+
+| Tool | What it does | What it doesn't do |
+|------|-------------|-------------------|
+| **auto-memory** | Saves memories when Claude thinks something is worth remembering | Doesn't audit quality, detect drift, find contradictions, or check if memories are working |
+| **`/insights`** | Shows usage stats and general tips from session history | Doesn't analyze frustration patterns, doesn't touch memory or CLAUDE.md, doesn't produce actionable fixes |
+| **Pensieve** | Audits memory + instruction health, mines sessions for empirical frustration data, fixes what's broken, proactively seeds correct behaviors, escalates to hooks | Doesn't replace the primitives — builds on them |
+
+### Privacy: session transcript analysis
+
+The `/diagnose` skill reads your local session transcripts (JSONL files in `~/.claude/projects/`) to find empirical frustration patterns — tool rejections, user interruptions, correction language. **This data never leaves your machine.** Pensieve is a set of markdown skill files with no code, no network calls, no telemetry. The analysis happens entirely within your Claude Code session, using the same file-reading tools Claude already has access to. Nothing is collected, transmitted, or stored beyond the memories and CLAUDE.md changes you explicitly approve.
 
 ## Install
 
