@@ -13,14 +13,23 @@ Session transcripts are JSONL files stored per-account, per-project. **Frustrati
 
 **CRITICAL: You MUST scan ALL projects across ALL accounts, not just the current project.**
 
-Run this exact command first to discover all transcripts:
+**Step 1: Discover the project landscape.** Run this to see how many transcripts exist per project:
 ```bash
-find ~/.claude/projects ~/.claude-account*/projects -name "*.jsonl" -type f 2>/dev/null | while read f; do dir=$(dirname "$f"); proj=$(basename "$dir"); echo "$(stat -c %Y "$f") $proj $f"; done | sort -rn | head -30
+find ~/.claude/projects ~/.claude-account*/projects -name "*.jsonl" -type f 2>/dev/null | while read f; do basename "$(dirname "$f")"; done | grep -v subagents | sort | uniq -c | sort -rn
 ```
 
-This gives you the 30 most recent session transcripts across every project and every account, sorted by modification time. The output format is `timestamp project-name filepath`.
+This shows every project and its transcript count. Exclude `subagents` directories (agent worker transcripts, not user sessions).
 
-Work through these transcripts in recency order. Tag each finding with its project name so the heatmap shows cross-project distribution (e.g., "Work Avoidance: 5 in daystrom-mk2, 2 in chooch, 0 in pensieve").
+**Step 2: Sample from EVERY project, not just recent ones.** For each project with transcripts, get its 3 most recent sessions:
+```bash
+for proj in $(find ~/.claude/projects ~/.claude-account*/projects -maxdepth 1 -type d 2>/dev/null | grep -v subagents | sort -u); do
+  ls -t "$proj"/*.jsonl 2>/dev/null | head -3
+done
+```
+
+This ensures broad coverage. A project with 267 transcripts and a project with 2 both get sampled. If a user has 15 projects, that's ~45 transcripts — enough for statistical signal without overwhelming context.
+
+**Step 3: Tag findings by project.** Every frustration signal must be tagged with its source project so the heatmap shows cross-project distribution (e.g., "Work Avoidance: 5 in daystrom-mk2, 2 in chooch, 0 in pensieve").
 
 Each JSONL line is a JSON object. Key fields:
 - `type`: "user", "assistant", "file-history-snapshot"
@@ -32,7 +41,7 @@ Each JSONL line is a JSON object. Key fields:
 
 ### Phase 1: Collect frustration signals
 
-Scan the most recent 10-20 session transcripts (by modification time). For each, extract:
+Work through the sampled transcripts from Step 2 above (3 most recent per project, all projects). For each, extract:
 
 **Hard signals (definitive frustration):**
 - Lines containing `"User rejected tool use"` — count and note what tool was rejected
