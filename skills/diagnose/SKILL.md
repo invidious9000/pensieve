@@ -9,18 +9,18 @@ Read `references/claude-frustration-patterns.md` from the pensieve plugin direct
 
 ## Data Sources
 
-Session transcripts are JSONL files stored per-account, per-project. **Frustration patterns are about the user, not the project** — if a user is frustrated by Work Avoidance in one project, they'll be frustrated by it everywhere. Scan ALL projects across ALL accounts.
+Session transcripts are JSONL files stored per-account, per-project. **Frustration patterns are about the user, not the project** — if a user is frustrated by Work Avoidance in one project, they'll be frustrated by it everywhere.
 
-Discover all transcript locations:
+**CRITICAL: You MUST scan ALL projects across ALL accounts, not just the current project.**
+
+Run this exact command first to discover all transcripts:
 ```bash
-# All accounts
-~/.claude/projects/*/*.jsonl
-~/.claude-account*/projects/*/*.jsonl
+find ~/.claude/projects ~/.claude-account*/projects -name "*.jsonl" -type f 2>/dev/null | while read f; do dir=$(dirname "$f"); proj=$(basename "$dir"); echo "$(stat -c %Y "$f") $proj $f"; done | sort -rn | head -30
 ```
 
-Glob for all account directories (`~/.claude-account*`) to discover accounts dynamically. For each account, scan all project directories, not just the current project. Sort all discovered transcripts by modification time across all accounts and projects — analyze the most recent 20-30 sessions regardless of which project they belong to.
+This gives you the 30 most recent session transcripts across every project and every account, sorted by modification time. The output format is `timestamp project-name filepath`.
 
-Tag each transcript with its project name (derived from the directory) so findings can be correlated: "this frustration happened 5 times in daystrom-mk2, 2 times in chooch, 0 times in pensieve."
+Work through these transcripts in recency order. Tag each finding with its project name so the heatmap shows cross-project distribution (e.g., "Work Avoidance: 5 in daystrom-mk2, 2 in chooch, 0 in pensieve").
 
 Each JSONL line is a JSON object. Key fields:
 - `type`: "user", "assistant", "file-history-snapshot"
