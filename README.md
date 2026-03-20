@@ -69,7 +69,7 @@ Rules should start as memories and escalate only when softer enforcement fails. 
 
 **`/audit`** — Full diagnostic of everything shaping Claude's behavior. Checks memory structural integrity, content quality (contradictions, staleness, negativity bias, absolutist language, drift), CLAUDE.md positional ordering and density, and cross-project rule duplication. Produces a health dashboard with actionable findings.
 
-**`/diagnose`** — Empirical analysis from session transcripts. Finds tool rejections, interruptions, correction language, and retry patterns. Clusters them by the 18 frustration patterns. Compares what memories exist vs. what frustrations actually occur. Infers user persona from behavioral signals. Measures whether existing memories are actually working.
+**`/diagnose`** — Empirical analysis from session transcripts. Finds tool rejections, interruptions, correction language, and retry patterns. Clusters them by the 19 frustration patterns. Compares what memories exist vs. what frustrations actually occur. Infers user persona from behavioral signals. Measures whether existing memories are actually working.
 
 ### Treatment
 
@@ -87,7 +87,7 @@ In-the-moment: /capture                  (save a correction without drift)
 Last resort:   /harden                   (mechanically enforce what Claude won't learn)
 ```
 
-## The 18 Frustration Patterns
+## The 19 Frustration Patterns
 
 Pensieve catalogs 19 behavioral failure modes that generate user frustration:
 

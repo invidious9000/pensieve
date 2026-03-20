@@ -5,7 +5,7 @@ description: "Proactively install anti-frustration rules based on user profile �
 
 You are helping a user proactively configure Claude Code's behavior before problems occur. Instead of waiting for frustration → correction → memory (with drift risk), this skill installs the correct behaviors upfront based on the user's profile and preferences.
 
-Read `references/claude-frustration-patterns.md` from the pensieve plugin directory — it catalogs 18 behavioral failure modes with their correct behaviors. Each pattern's "Correct behavior" section is the seed content.
+Read `references/claude-frustration-patterns.md` from the pensieve plugin directory — it catalogs 19 behavioral failure modes with their correct behaviors. Each pattern's "Correct behavior" section is the seed content.
 
 ## Process
 
