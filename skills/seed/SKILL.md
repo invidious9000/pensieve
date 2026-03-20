@@ -76,15 +76,22 @@ Group related rules under category headings. Keep the total addition under 30 li
 - "Don't patch symptoms" → "Trace errors to their origin before fixing."
 - "Don't ask permission for everything" → "For reversible actions with clear instructions, proceed directly."
 
-### Step 5: Generate user profile memory
+### Step 5: Generate user profile
 
-If no user profile memory exists, create one based on the profiling answers. This is critical — without it, Claude defaults to a generic interaction style that frustrates power users and overwhelms beginners.
+The user profile is about the USER, not any specific project. It belongs at the user/global level:
+- Multi-account: add to `~/.claude-shared/CLAUDE.md` under "Universal Preferences"
+- Single-account: add to `~/.claude/CLAUDE.md`
+- **NEVER create a user profile as a per-project memory** — it applies everywhere
+
+Project-specific context (e.g., "new to the frontend of this repo", "this is my flagship project") can go in per-project memory, but the core persona (expertise level, communication preferences, autonomy preference) is global.
+
+If no user profile exists in the shared/global CLAUDE.md, draft one based on the profiling answers. This is critical — without it, Claude defaults to a generic interaction style that frustrates power users and overwhelms beginners.
 
 ### Step 6: Preview and confirm
 
 Show the user:
 1. The proposed CLAUDE.md additions (with exact placement)
-2. The proposed user profile memory
+2. The proposed user profile section (in shared/global CLAUDE.md, NOT per-project memory)
 3. Which frustration patterns are covered and which are not (with reasoning)
 
 Ask: "Does this match how you want Claude to work? Anything to adjust?"

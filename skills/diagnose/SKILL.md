@@ -103,7 +103,7 @@ From the session transcripts, infer the user's profile by observing:
 - **Frustration triggers:** What patterns from Phase 2 cluster most heavily? These are the user's specific pet peeves.
 - **Work patterns:** Do transcripts show parallel sessions? Multiple projects? Late-night sessions? (context for understanding their workflow)
 
-Draft a user persona summary. This will be used by `/seed` if run afterward, or by `/optimize` to generate a user profile memory. Present it to the user for confirmation — persona inference is a hypothesis, not a fact.
+Draft a user persona summary. This will be used by `/seed` if run afterward, or by `/optimize` to add a user profile section to the shared/global CLAUDE.md (NOT as a per-project memory — the persona is about the user, not any specific project). Present it to the user for confirmation — persona inference is a hypothesis, not a fact.
 
 ## Output Format
 

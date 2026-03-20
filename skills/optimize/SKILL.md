@@ -39,8 +39,8 @@ Apply in this order (least destructive first):
 
 ### 5. Balance fixes
 - If negativity ratio >75%: draft a positive-patterns memory derived from the user's actual confirmed behavior (not a generic template). Ask to confirm before saving.
-- If no user profile memory exists: draft one from observable signals. Ask to verify.
-- If no project context memory exists and the project has non-obvious context: draft one
+- If no user profile exists in shared/global CLAUDE.md: draft one from observable signals and propose adding it to `~/.claude-shared/CLAUDE.md` or `~/.claude/CLAUDE.md` — NEVER as a per-project memory. Ask to verify.
+- If no project context memory exists and the project has non-obvious context: draft one (this IS per-project)
 
 ### 6. Index reorganization
 - Group MEMORY.md entries by category
