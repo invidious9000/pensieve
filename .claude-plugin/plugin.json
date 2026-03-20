@@ -2,36 +2,10 @@
   "name": "pensieve",
   "version": "0.2.0",
   "description": "Memory and instruction optimizer for Claude Code — diagnose, fix, and prevent the behavioral degradation that accumulates over time",
-  "skills": [
-    {
-      "name": "audit",
-      "path": "../skills/audit.md",
-      "description": "Full diagnostic: memory health, CLAUDE.md quality, cross-project duplication — everything that might be degrading Claude's behavior"
-    },
-    {
-      "name": "optimize",
-      "path": "../skills/optimize.md",
-      "description": "Apply all fixes: memory consolidation, CLAUDE.md restructuring, cross-project rule promotion"
-    },
-    {
-      "name": "diagnose",
-      "path": "../skills/diagnose.md",
-      "description": "Mine session transcripts for frustration patterns, infer user persona, compare with existing memories"
-    },
-    {
-      "name": "capture",
-      "path": "../skills/capture.md",
-      "description": "Structured feedback capture with drift prevention — What/Why/When/Exceptions before writing"
-    },
-    {
-      "name": "seed",
-      "path": "../skills/seed.md",
-      "description": "Proactively install anti-frustration rules based on user profile — vaccination instead of waiting for problems"
-    },
-    {
-      "name": "harden",
-      "path": "../skills/harden.md",
-      "description": "Convert repeatedly-violated rules into mechanical hooks — escalate from soft memory to hard enforcement"
-    }
-  ]
+  "author": {
+    "name": "invidious9000"
+  },
+  "repository": "https://github.com/invidious9000/pensieve",
+  "license": "MIT",
+  "skills": "./skills/"
 }
