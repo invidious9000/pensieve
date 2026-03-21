@@ -10,8 +10,8 @@
     {
       "name": "pensieve",
       "source": "./",
-      "description": "6 skills: /audit (memory + instruction diagnostics), /optimize (apply fixes), /diagnose (mine session transcripts), /capture (drift-proof feedback), /seed (proactive anti-frustration rules), /harden (escalate to hooks)",
-      "version": "0.8.0"
+      "description": "7 skills: /audit (memory + instruction diagnostics), /optimize (apply fixes), /diagnose (mine session transcripts), /debrief (end-of-session retrospective), /capture (drift-proof feedback), /seed (proactive anti-frustration rules), /harden (escalate to hooks)",
+      "version": "0.9.0"
     }
   ]
 }

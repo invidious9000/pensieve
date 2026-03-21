@@ -20,7 +20,7 @@ The result is predictable degradation: memories accumulate "don't" rules that ma
 
 ### Privacy: session transcript analysis
 
-The `/diagnose` skill reads your local session transcripts (JSONL files in `~/.claude/projects/`) to find empirical frustration patterns — tool rejections, user interruptions, correction language. **This data never leaves your machine.** Pensieve is a set of markdown skill files with no code, no network calls, no telemetry. The analysis happens entirely within your Claude Code session, using the same file-reading tools Claude already has access to. Nothing is collected, transmitted, or stored beyond the memories and CLAUDE.md changes you explicitly approve.
+The `/diagnose` and `/debrief` skills read your local session transcripts (JSONL files in `~/.claude/projects/`) to find frustration patterns and extract session lessons. **This data never leaves your machine.** Pensieve is a set of markdown skill files with no code, no network calls, no telemetry. The analysis happens entirely within your Claude Code session, using the same file-reading tools Claude already has access to. Nothing is collected, transmitted, or stored beyond the memories and CLAUDE.md changes you explicitly approve.
 
 ## Install
 
@@ -65,6 +65,8 @@ Rules should start as memories and escalate only when softer enforcement fails. 
 
 **`/capture`** — Structured feedback capture with drift prevention. When you want Claude to remember something, asks What/Why/When/Exceptions before writing — preventing the common failure where Claude paraphrases your rule incorrectly.
 
+**`/debrief`** — End-of-session retrospective. Sweeps the current session's transcript to extract user corrections, design decisions, hard-won debugging lessons, discovered constraints, and unfinished threads. Classifies each finding by destination (memory, CLAUDE.md, or handoff doc) based on severity, scope, and whether existing memories were violated. Produces a handoff note so the next session can pick up where this one left off.
+
 ### Diagnosis
 
 **`/audit`** — Full diagnostic of everything shaping Claude's behavior. Checks memory structural integrity, content quality (contradictions, staleness, negativity bias, absolutist language, drift), CLAUDE.md positional ordering and density, and cross-project rule duplication. Produces a health dashboard with actionable findings.
@@ -84,6 +86,7 @@ First time:    /diagnose → /seed         (understand user, install proactive r
 Periodic:      /audit → /optimize        (catch degradation, fix it)
 After issues:  /diagnose → /optimize     (find what's not working, fix root cause)
 In-the-moment: /capture                  (save a correction without drift)
+End of session: /debrief                 (extract lessons, decisions, handoff state)
 Last resort:   /harden                   (mechanically enforce what Claude won't learn)
 ```
 

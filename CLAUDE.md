@@ -22,14 +22,16 @@ When adding a new skill: create `skills/{name}/SKILL.md` with frontmatter. When 
 
 ### Skill lifecycle model
 ```
-/seed → /capture → /audit → /diagnose → /optimize → /harden
- (prevent)  (capture)  (static)  (empirical)  (fix)     (enforce)
+/seed → /capture  → /audit → /diagnose → /optimize → /harden
+ (prevent) (mid-session) (static) (empirical)  (fix)     (enforce)
+            /debrief
+          (end-of-session)
 ```
 
-Skills are designed to compose: `/diagnose` output feeds into `/seed` (persona inference). `/audit` findings feed into `/optimize` (fix application). `/harden` is the escalation endpoint when softer enforcement fails.
+Skills are designed to compose: `/diagnose` output feeds into `/seed` (persona inference). `/audit` findings feed into `/optimize` (fix application). `/harden` is the escalation endpoint when softer enforcement fails. `/debrief` is a batch version of `/capture` that also produces handoff docs and detects escalation candidates (memories violated this session).
 
 ### Reference documents (lazy-loaded)
-- `claude-frustration-patterns.md` — 19 behavioral failure modes. Loaded by: audit, optimize, diagnose, capture, seed
+- `claude-frustration-patterns.md` — 19 behavioral failure modes. Loaded by: audit, optimize, diagnose, debrief, capture, seed
 - `instruction-patterns.md` — CLAUDE.md positional ordering, density, lazy-loading principles. Loaded by: audit, optimize
 - `memory-anti-patterns.md` — 20 structural/content failure modes. Loaded by: audit
 
@@ -40,6 +42,7 @@ Skills instruct Claude to `Read` these only when needed, not all at once. This i
 - `/diagnose` reads session transcripts from `~/.claude/projects/{encoded}//*.jsonl`
 - `/seed` and `/harden` write to `~/.claude/CLAUDE.md` or `~/.claude-shared/CLAUDE.md` (global) and project-level files
 - `/capture` writes to the current project's memory directory
+- `/debrief` reads the current session transcript, writes to the current project's memory directory + CLAUDE.md + handoff doc
 
 ### Version management
 Version lives in two places that MUST stay in sync:
