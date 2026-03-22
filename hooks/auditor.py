@@ -57,29 +57,33 @@ def save_state(state: dict):
 # ── Config loading ────────────────────────────────────────────────
 
 def load_invariants() -> dict:
-    """Load invariant definitions, merging default + project-specific."""
+    """Load invariant definitions, merging: plugin defaults → user → project.
+
+    Precedence (all layers merge, later layers extend earlier):
+      1. Plugin defaults:  ${CLAUDE_PLUGIN_ROOT}/invariants/default.json
+      2. User-level:       ~/.claude/pensieve-invariants.json
+      3. Project-specific: ${CLAUDE_PROJECT_DIR}/.claude/pensieve-invariants.json
+    """
     config = {"invariants": [], "checkpoints": []}
 
-    # Default from plugin
-    default_path = Path(PLUGIN_ROOT) / "invariants" / "default.json"
-    if default_path.exists():
-        try:
-            default = json.loads(default_path.read_text())
-            config["invariants"].extend(default.get("invariants", []))
-            config["checkpoints"].extend(default.get("checkpoints", []))
-        except (json.JSONDecodeError, OSError):
-            pass
+    sources = [
+        # Plugin defaults
+        Path(PLUGIN_ROOT) / "invariants" / "default.json",
+        # User-level (follows the user across all projects)
+        Path.home() / ".claude" / "pensieve-invariants.json",
+        # Project-specific
+        Path(os.environ.get("CLAUDE_PROJECT_DIR", os.getcwd()))
+        / ".claude" / "pensieve-invariants.json",
+    ]
 
-    # Project-specific overrides
-    cwd = os.environ.get("CLAUDE_PROJECT_DIR", os.getcwd())
-    project_path = Path(cwd) / ".claude" / "pensieve-invariants.json"
-    if project_path.exists():
-        try:
-            project = json.loads(project_path.read_text())
-            config["invariants"].extend(project.get("invariants", []))
-            config["checkpoints"].extend(project.get("checkpoints", []))
-        except (json.JSONDecodeError, OSError):
-            pass
+    for source in sources:
+        if source.exists():
+            try:
+                data = json.loads(source.read_text())
+                config["invariants"].extend(data.get("invariants", []))
+                config["checkpoints"].extend(data.get("checkpoints", []))
+            except (json.JSONDecodeError, OSError):
+                pass
 
     return config
 
