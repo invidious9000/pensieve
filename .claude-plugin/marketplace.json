@@ -4,14 +4,14 @@
     "name": "invidious9000"
   },
   "metadata": {
-    "description": "Memory and instruction optimizer for Claude Code — diagnose, fix, and prevent the behavioral degradation that accumulates over time. 18 frustration pattern catalog, session transcript mining, proactive anti-frustration seeding, escalation to mechanical hooks."
+    "description": "Memory and instruction optimizer for Claude Code — diagnose, fix, and prevent behavioral degradation. 19 frustration patterns, session transcript mining, proactive seeding, escalation to hooks, and runtime invariance auditor with stateful trajectory tracking."
   },
   "plugins": [
     {
       "name": "pensieve",
       "source": "./",
-      "description": "7 skills: /audit (memory + instruction diagnostics), /optimize (apply fixes), /diagnose (mine session transcripts), /debrief (end-of-session retrospective), /capture (drift-proof feedback), /seed (proactive anti-frustration rules), /harden (escalate to hooks)",
-      "version": "0.10.0"
+      "description": "8 skills: /audit, /optimize, /diagnose, /debrief, /capture, /seed, /harden (escalate to hooks), /enforce (invariance auditor status). Runtime hooks: stateful PostToolUse/Stop/UserPromptSubmit invariance auditor.",
+      "version": "0.11.0"
     }
   ]
 }

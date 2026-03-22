@@ -1,7 +1,7 @@
 {
   "name": "pensieve",
-  "version": "0.10.0",
-  "description": "Memory and instruction optimizer for Claude Code — diagnose, fix, and prevent the behavioral degradation that accumulates over time",
+  "version": "0.11.0",
+  "description": "Memory and instruction optimizer for Claude Code — diagnose, fix, and prevent behavioral degradation. Now with runtime invariance auditor: stateful trajectory tracking, temporal invariant checking, and periodic reasoning checkpoints.",
   "author": {
     "name": "invidious9000"
   },

@@ -21,11 +21,23 @@ The user specifies which rule, or you can suggest based on `/diagnose` output. G
 - Rules where the violation causes data loss or irreversible damage (destructive actions)
 - Rules that are pattern-matchable on tool input (command text, file paths, SQL)
 
-Bad candidates:
+Good candidates for **invariant definitions** (temporal properties — preferred over standalone hooks):
+- "Read file before editing it" → `preceded_by` invariant
+- "Verify config at runtime after changing it" → `followed_by` invariant
+- "Consult graph before writing code" → `session_requires` invariant
+- "Break autopilot every N tool calls" → checkpoint
+
+Bad candidates for any mechanical enforcement:
 - Behavioral/judgment rules ("trace root cause") — can't be mechanically checked
 - Context-dependent rules ("don't over-engineer") — too subjective for a hook
 
-### Step 2: Choose hook type
+### Step 2: Choose enforcement mechanism
+
+**Prefer invariant definitions** over standalone hooks when the rule is a temporal property (X before Y, Y after X within N calls). Write the invariant to `.claude/pensieve-invariants.json` — the auditor hook handles enforcement, state tracking, cooldowns, and output formatting automatically. See `/enforce` for the invariant schema.
+
+**Use standalone hooks** only when the rule is a simple pattern match on a single tool call (e.g., block `lsof -t | xargs kill`). These don't need trajectory state.
+
+### Step 2b: Choose hook type (for standalone hooks)
 
 | Hook Event | Use When |
 |------------|----------|

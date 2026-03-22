@@ -1,0 +1,49 @@
+{
+  "invariants": [
+    {
+      "id": "read-before-edit",
+      "type": "preceded_by",
+      "description": "Read a file before editing it",
+      "trigger": {
+        "tool": "Edit",
+        "path_pattern": ".*"
+      },
+      "requires": {
+        "tool": "Read",
+        "path_must_match_trigger": true
+      },
+      "severity": "soft",
+      "message": "You're editing {file} without reading it first in this session."
+    },
+    {
+      "id": "runtime-verify-config",
+      "type": "followed_by",
+      "description": "Config/DI changes must be verified at runtime — dotnet build is not validation",
+      "trigger": {
+        "tool": "Edit|Write",
+        "path_pattern": "appsettings.*\\.json$|Program\\.cs$|Startup\\.cs$|\\.csproj$"
+      },
+      "requires": {
+        "tool": "Bash",
+        "input_pattern": "dotnet run|dotnet start|docker compose|aspire",
+        "within": 20
+      },
+      "severity": "hard",
+      "message": "You changed {file}. Verify at runtime (dotnet run / start the service) — dotnet build alone is not sufficient for config/DI changes."
+    }
+  ],
+  "checkpoints": [
+    {
+      "id": "autopilot-check",
+      "condition": "calls_since_user >= 30",
+      "repeat_every": 30,
+      "message": "You've made {calls_since_user} tool calls without user input. Pause and state what you're doing and why before continuing."
+    },
+    {
+      "id": "edit-streak",
+      "condition": "consecutive_edits >= 6",
+      "repeat_every": 6,
+      "message": "You've made {consecutive_edits} consecutive edits without reading any files. Pause and verify your changes are correct."
+    }
+  ]
+}
